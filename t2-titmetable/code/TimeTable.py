@@ -1,13 +1,16 @@
+from Instance import Instance
 from Slot import Slot
 import itertools
 
 class TimeTable:
-  def __init__(self, daysPerWeek: int, periodsPerDay: int, availableRooms: int) -> None:
-    self.daysPerWeek = daysPerWeek
+  def __init__(self, days: int, periodsPerDay: int, rooms: int) -> None:
+    self.days = days
     self.periodsPerDay = periodsPerDay
-    self.availableRooms = availableRooms
+    self.rooms = rooms
 
-    slots = itertools.product(range(daysPerWeek), range(periodsPerDay), range(availableRooms))
+    slots = itertools.product(
+      range(days), range(periodsPerDay), range(rooms)
+    )
 
     self.slots = [
       Slot(day, period, room) for day, period, room in slots
