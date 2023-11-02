@@ -1,6 +1,7 @@
 from Course import Course
 from Room import Room
 from Curricula import Curricula
+from Constraint import Constraint
 
 class Instance:
   def __init__(self, filename: str) -> None:
@@ -59,12 +60,12 @@ class Instance:
       name = line[0]
 
       line.pop(0) # Remaining only courses
+      line.pop(0) # Remaining only courses
+
       courses = set(line)
 
       curricula = Curricula(name, courses)
       self.curricula.append(curricula)
-
-    print(self.courses, self.rooms, self.curricula)
 
     file.readline()
     file.readline()
@@ -74,7 +75,66 @@ class Instance:
 
     for i in range(self.numConstraints):
       line = file.readline().split()
-      # ...
-      pass
 
-Instance('../instances/toy.ctt')
+      name = line[0]
+      day = line[1]
+      period = line[2]
+
+      constraint = Constraint(name, day, period)
+      self.constraints.append(constraint)
+
+    file.readline()
+    file.readline()
+    file.close()
+
+  def __str__(self) -> str:
+    instance = 'INSTANCE'
+
+    generalData = '\n'.join([
+      f'name: {self.name}',
+      f'numCourses: {self.numCourses}',
+      f'numRooms: {self.numRooms}',
+      f'days: {self.days}',
+      f'periodsPerDay: {self.periodsPerDay}',
+      f'numCurricula: {self.numCurricula}',
+      f'numConstraints: {self.numConstraints}',
+    ])
+
+    courses = 'COURSES'
+
+    coursesData = '\n'.join([
+      course.__str__() for course in self.courses
+    ])
+
+    rooms = 'ROOMS'
+
+    roomsData = '\n'.join([
+      room.__str__() for room in self.rooms
+    ])
+
+    curricula = 'CURRICULA'
+
+    curriculaData = '\n'.join([
+      curricula.__str__() for curricula in self.curricula
+    ])
+
+    constraints = 'CONSTRAINTS'
+
+    constraintsData = '\n'.join([
+      constraint.__str__() for constraint in self.constraints
+    ])
+
+    return '\n\n'.join([
+      instance,
+      generalData,
+      courses,
+      coursesData,
+      rooms,
+      roomsData,
+      curricula,
+      curriculaData,
+      constraints,
+      constraintsData,
+    ])
+
+print(Instance('../instances/toy.ctt'))

@@ -5,3 +5,6 @@ class Course:
     self.weekClasses = weekClasses
     self.minWeekClasses = minWeekClasses
     self.students = students
+
+  def __str__(self) -> str:
+    return f'name: {self.name} | teacher: {self.teacher} | weekClasses: {self.weekClasses} | minWeekClasses: {self.minWeekClasses} | students: {self.students}'
