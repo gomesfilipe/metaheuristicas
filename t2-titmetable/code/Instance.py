@@ -7,21 +7,21 @@ class Instance:
   def __init__(self, filename: str) -> None:
     file = open(filename, 'r')
 
-    self.name =               file.readline().split()[1]
-    self.numCourses =     int(file.readline().split()[1])
-    self.numRooms =       int(file.readline().split()[1])
-    self.days =           int(file.readline().split()[1])
-    self.periodsPerDay =  int(file.readline().split()[1])
-    self.numCurricula =   int(file.readline().split()[1])
-    self.numConstraints = int(file.readline().split()[1])
+    self.__name =               file.readline().split()[1]
+    self.__numCourses =     int(file.readline().split()[1])
+    self.__numRooms =       int(file.readline().split()[1])
+    self.__days =           int(file.readline().split()[1])
+    self.__periodsPerDay =  int(file.readline().split()[1])
+    self.__numCurricula =   int(file.readline().split()[1])
+    self.__numConstraints = int(file.readline().split()[1])
 
     file.readline()
     file.readline()
 
     # Reading courses
-    self.courses = []
+    self.__courses = []
 
-    for i in range(self.numCourses):
+    for i in range(self.__numCourses):
       line = file.readline().split()
 
       name =            line[0]
@@ -31,30 +31,30 @@ class Instance:
       students =        line[4]
 
       course = Course(name, teacher, weekClasses, minWeeekClasses, students)
-      self.courses.append(course)
+      self.__courses.append(course)
 
     file.readline()
     file.readline()
 
     # Reading rooms
-    self.rooms = []
+    self.__rooms = []
 
-    for i in range(self.numRooms):
+    for i in range(self.__numRooms):
       line = file.readline().split()
 
       name =         line[0]
       capacity = int(line[1])
 
       room = Room(name, capacity)
-      self.rooms.append(room)
+      self.__rooms.append(room)
 
     file.readline()
     file.readline()
 
     # Reading curricula
-    self.curricula = []
+    self.__curricula = []
 
-    for i in range(self.numCurricula):
+    for i in range(self.__numCurricula):
       line = file.readline().split()
 
       name = line[0]
@@ -65,15 +65,15 @@ class Instance:
       courses = set(line)
 
       curricula = Curricula(name, courses)
-      self.curricula.append(curricula)
+      self.__curricula.append(curricula)
 
     file.readline()
     file.readline()
 
     # Reading constraints
-    self.constraints = []
+    self.__constraints = []
 
-    for i in range(self.numConstraints):
+    for i in range(self.__numConstraints):
       line = file.readline().split()
 
       name = line[0]
@@ -81,7 +81,7 @@ class Instance:
       period = line[2]
 
       constraint = Constraint(name, day, period)
-      self.constraints.append(constraint)
+      self.__constraints.append(constraint)
 
     file.readline()
     file.readline()
@@ -91,37 +91,37 @@ class Instance:
     instance = 'INSTANCE'
 
     generalData = '\n'.join([
-      f'name: {self.name}',
-      f'numCourses: {self.numCourses}',
-      f'numRooms: {self.numRooms}',
-      f'days: {self.days}',
-      f'periodsPerDay: {self.periodsPerDay}',
-      f'numCurricula: {self.numCurricula}',
-      f'numConstraints: {self.numConstraints}',
+      f'name: {self.__name}',
+      f'numCourses: {self.__numCourses}',
+      f'numRooms: {self.__numRooms}',
+      f'days: {self.__days}',
+      f'periodsPerDay: {self.__periodsPerDay}',
+      f'numCurricula: {self.__numCurricula}',
+      f'numConstraints: {self.__numConstraints}',
     ])
 
     courses = 'COURSES'
 
     coursesData = '\n'.join([
-      course.__str__() for course in self.courses
+      course.__str__() for course in self.__courses
     ])
 
     rooms = 'ROOMS'
 
     roomsData = '\n'.join([
-      room.__str__() for room in self.rooms
+      room.__str__() for room in self.__rooms
     ])
 
     curricula = 'CURRICULA'
 
     curriculaData = '\n'.join([
-      curricula.__str__() for curricula in self.curricula
+      curricula.__str__() for curricula in self.__curricula
     ])
 
     constraints = 'CONSTRAINTS'
 
     constraintsData = '\n'.join([
-      constraint.__str__() for constraint in self.constraints
+      constraint.__str__() for constraint in self.__constraints
     ])
 
     return '\n\n'.join([
@@ -137,4 +137,37 @@ class Instance:
       constraintsData,
     ])
 
-print(Instance('../instances/toy.ctt'))
+  def get_name(self) -> str:
+    return self.__name
+
+  def get_num_courses(self) -> int:
+    return self.__numCourses
+
+  def get_num_rooms(self) -> int:
+    return self.__numRooms
+
+  def get_days(self) -> int:
+    return self.__days
+
+  def get_periods_per_day(self) -> int:
+    return self.__periodsPerDay
+
+  def get_num_curricula(self) -> int:
+    return self.__numCurricula
+
+  def get_num_constraints(self) -> int:
+    return self.__numConstraints
+
+  def get_courses(self) -> list:
+    return self.__courses.copy()
+
+  def get_rooms(self) -> list:
+    return self.__rooms.copy()
+
+  def get_curricula(self) -> list:
+    return self.__curricula.copy()
+
+  def get_constraints(self) -> list:
+    return self.__constraints.copy()
+
+# print(Instance('../instances/toy.ctt'))
