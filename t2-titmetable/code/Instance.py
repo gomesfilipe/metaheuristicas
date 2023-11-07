@@ -2,33 +2,37 @@ from Course import Course
 from Room import Room
 from Curricula import Curricula
 from Constraint import Constraint
+from typing import List
 
 class Instance:
   def __init__(self, filename: str) -> None:
     file = open(filename, 'r')
 
-    self.__name =               file.readline().split()[1]
-    self.__numCourses =     int(file.readline().split()[1])
-    self.__numRooms =       int(file.readline().split()[1])
-    self.__days =           int(file.readline().split()[1])
-    self.__periodsPerDay =  int(file.readline().split()[1])
-    self.__numCurricula =   int(file.readline().split()[1])
+    self.__name           =     file.readline().split()[1]
+    self.__numCourses     = int(file.readline().split()[1])
+    self.__numRooms       = int(file.readline().split()[1])
+    self.__days           = int(file.readline().split()[1])
+    self.__periodsPerDay  = int(file.readline().split()[1])
+    self.__numCurricula   = int(file.readline().split()[1])
     self.__numConstraints = int(file.readline().split()[1])
+
+    self.__courses:     List[Course]     = []
+    self.__rooms:       List[Room]       = []
+    self.__curricula:   List[Curricula]  = []
+    self.__constraints: List[Constraint] = []
 
     file.readline()
     file.readline()
 
     # Reading courses
-    self.__courses = []
-
     for i in range(self.__numCourses):
       line = file.readline().split()
 
-      name =            line[0]
-      teacher =         line[1]
-      weekClasses =     line[2]
+      name            = line[0]
+      teacher         = line[1]
+      weekClasses     = line[2]
       minWeeekClasses = line[3]
-      students =        line[4]
+      students        = line[4]
 
       course = Course(name, teacher, weekClasses, minWeeekClasses, students)
       self.__courses.append(course)
@@ -37,8 +41,6 @@ class Instance:
     file.readline()
 
     # Reading rooms
-    self.__rooms = []
-
     for i in range(self.__numRooms):
       line = file.readline().split()
 
@@ -52,8 +54,6 @@ class Instance:
     file.readline()
 
     # Reading curricula
-    self.__curricula = []
-
     for i in range(self.__numCurricula):
       line = file.readline().split()
 
@@ -71,13 +71,11 @@ class Instance:
     file.readline()
 
     # Reading constraints
-    self.__constraints = []
-
     for i in range(self.__numConstraints):
       line = file.readline().split()
 
-      name = line[0]
-      day = line[1]
+      name   = line[0]
+      day    = line[1]
       period = line[2]
 
       constraint = Constraint(name, day, period)
@@ -86,6 +84,11 @@ class Instance:
     file.readline()
     file.readline()
     file.close()
+
+    # Updating constraints and curricula in courses
+    for course in self.__courses:
+      course.updateConstraints(self.__constraints)
+      course.updateCurricula(self.__curricula)
 
   def __str__(self) -> str:
     instance = 'INSTANCE'
