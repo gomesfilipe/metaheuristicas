@@ -10,7 +10,7 @@ class Slot:
     self.__allocatedCourse = None
 
   def __str__(self) -> str:
-    return f'({self.__day}, {self.__period}, {self.__room})'
+    return f'({self.__day}, {self.__period}, {self.__room.get_id()})'
 
   def get_day(self) -> int:
     return self.__day

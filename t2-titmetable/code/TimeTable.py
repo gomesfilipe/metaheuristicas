@@ -6,12 +6,12 @@ from typing import List
 class TimeTable:
   def __init__(self, instance: Instance) -> None:
     self.__instance = instance
+    self.__allocatedClasses = 0
 
     slots = itertools.product(
       range(self.__instance.get_days()),
       range(self.__instance.get_periods_per_day()),
       self.__instance.get_rooms()
-      # range(self.__instance.get_num_rooms())
     )
 
     self.__slots: List[Slot] = [
@@ -27,7 +27,14 @@ class TimeTable:
   def get_slots(self) -> list:
     return self.__slots
 
-path = '../instances/toy.ctt'
-instance = Instance(path)
+  def get_slot_by_attributes(self, day: int, period: int, room: int) -> Slot:
+    numRooms = self.get_instance().get_num_rooms()
+    periodsPerDay = self.get_instance().get_periods_per_day()
+    index = room + numRooms * period + periodsPerDay * numRooms * day
 
-print(TimeTable(instance))
+    return self.__slots[index]
+
+# path = '../instances/toy.ctt'
+# instance = Instance(path)
+# tt = TimeTable(instance)
+# print(tt)

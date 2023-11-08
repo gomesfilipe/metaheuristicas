@@ -2,8 +2,7 @@ from Course import Course
 from Room import Room
 from Curricula import Curricula
 from Constraint import Constraint
-from typing import List
-from typing import Set
+from typing import List, Set
 
 class Instance:
   def __init__(self, filename: str) -> None:
@@ -48,7 +47,7 @@ class Instance:
       name =         line[0]
       capacity = int(line[1])
 
-      room = Room(name, capacity)
+      room = Room(name, capacity, i)
       self.__rooms.append(room)
 
     file.readline()
@@ -63,7 +62,8 @@ class Instance:
       line.pop(0) # Remaining only courses
       line.pop(0) # Remaining only courses
 
-      courses: Set[str] = set(line)
+      courses: List[Course] = [self.__get_course_by_name(courseName) for courseName in line]
+      courses: Set[Course] = set(courses)
 
       curricula = Curricula(name, courses)
       self.__curricula.append(curricula)
@@ -163,15 +163,32 @@ class Instance:
     return self.__numConstraints
 
   def get_courses(self) -> List[Course]:
-    return self.__courses.copy()
+    return self.__courses
 
   def get_rooms(self) -> List[Room]:
-    return self.__rooms.copy()
+    return self.__rooms
 
   def get_curricula(self) -> List[Curricula]:
-    return self.__curricula.copy()
+    return self.__curricula
 
   def get_constraints(self) -> List[Constraint]:
-    return self.__constraints.copy()
+    return self.__constraints
 
+  def __get_course_by_name(self, name: str) -> Course:
+    for course in self.__courses:
+      if course.get_name() == name:
+        return course
+
+    return None
 # print(Instance('../instances/toy.ctt'))
+
+# instance = Instance('../instances/toy.ctt')
+
+# a1 = instance.get_courses()[0]
+# a2 = instance.get_courses()[2]
+
+# print(a1.get_curricula())
+# print(a2.get_curricula())
+# print(a1)
+# print(a2)
+# print(a2.belongs_to_same_curricula(a1))
