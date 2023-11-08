@@ -3,6 +3,7 @@ from Room import Room
 from Curricula import Curricula
 from Constraint import Constraint
 from typing import List
+from typing import Set
 
 class Instance:
   def __init__(self, filename: str) -> None:
@@ -62,7 +63,7 @@ class Instance:
       line.pop(0) # Remaining only courses
       line.pop(0) # Remaining only courses
 
-      courses = set(line)
+      courses: Set[str] = set(line)
 
       curricula = Curricula(name, courses)
       self.__curricula.append(curricula)
@@ -161,16 +162,16 @@ class Instance:
   def get_num_constraints(self) -> int:
     return self.__numConstraints
 
-  def get_courses(self) -> list:
+  def get_courses(self) -> List[Course]:
     return self.__courses.copy()
 
-  def get_rooms(self) -> list:
+  def get_rooms(self) -> List[Room]:
     return self.__rooms.copy()
 
-  def get_curricula(self) -> list:
+  def get_curricula(self) -> List[Curricula]:
     return self.__curricula.copy()
 
-  def get_constraints(self) -> list:
+  def get_constraints(self) -> List[Constraint]:
     return self.__constraints.copy()
 
 # print(Instance('../instances/toy.ctt'))

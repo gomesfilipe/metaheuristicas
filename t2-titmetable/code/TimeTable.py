@@ -1,6 +1,7 @@
 from Instance import Instance
 from Slot import Slot
 import itertools
+from typing import List
 
 class TimeTable:
   def __init__(self, instance: Instance) -> None:
@@ -9,10 +10,11 @@ class TimeTable:
     slots = itertools.product(
       range(self.__instance.get_days()),
       range(self.__instance.get_periods_per_day()),
-      range(self.__instance.get_num_rooms())
+      self.__instance.get_rooms()
+      # range(self.__instance.get_num_rooms())
     )
 
-    self.__slots = [
+    self.__slots: List[Slot] = [
       Slot(day, period, room) for day, period, room in slots
     ]
 

@@ -1,5 +1,7 @@
+from typing import Set
+
 class Curricula:
-  def __init__(self, name: str, courses: set) -> None:
+  def __init__(self, name: str, courses: Set[str]) -> None:
     self.__name = name
     self.__courses = courses
     self.__numCourses = len(courses)
