@@ -13,7 +13,13 @@ class Course:
     self.__minWeekClasses = minWeekClasses
     self.__students = students
     self.__constraints: List[Constraint] = []
-    self.__curricula: Set[Curricula] = []
+    self.__curricula: List[Curricula] = []
+    self.__conflicts: set[Course] = set()
+
+    for curricula in self.__curricula:
+      for course in curricula.get_courses():
+        if self.there_is_conflict(course):
+          self.__conflicts.add(course)
 
   def __str__(self) -> str:
     return f'name: {self.__name} | teacher: {self.__teacher} | weekClasses: {self.__weekClasses} | minWeekClasses: {self.__minWeekClasses} | students: {self.__students}'
@@ -36,13 +42,16 @@ class Course:
   def get_constraints(self) -> List[Constraint]:
     return self.__constraints
 
-  def get_curricula(self) -> Set[Curricula]:
+  def get_curricula(self) -> List[Curricula]:
     return self.__curricula
+
+  def get_conflicts(self) -> Set[Course]:
+    return self.__conflicts
 
   def updateConstraints(self, constraints: List[Constraint]) -> None:
     self.__constraints = [c for c in constraints if self.__name == c.get_course()]
 
-  def updateCurricula(self, curricula: Set[Curricula]) -> None:
+  def updateCurricula(self, curricula: List[Curricula]) -> None:
     tmpCurricula = [c for c in curricula if self in c.get_courses()]
     self.__curricula = set(tmpCurricula)
 
@@ -52,4 +61,9 @@ class Course:
         return True
 
     return False
-    # return course in self.__curricula
+
+  def has_same_teacher(self, course: 'Course') -> bool:
+    return self.__teacher == course.__teacher
+
+  def there_is_conflict(self, course: 'Course') -> bool:
+    return self.has_same_teacher(course) or self.belongs_to_same_curricula(course)

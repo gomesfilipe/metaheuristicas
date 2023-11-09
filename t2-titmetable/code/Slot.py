@@ -7,10 +7,11 @@ class Slot:
     self.__day = day
     self.__period = period
     self.__room = room
-    self.__allocatedCourse = None
+    self.__allocatedCourse: Union[Course, None] = None
 
   def __str__(self) -> str:
-    return f'({self.__day}, {self.__period}, {self.__room.get_id()})'
+    allocatedCourseName = None if self.__allocatedCourse is None else self.__allocatedCourse.get_name()
+    return f'({self.__day}, {self.__period}, {self.__room.get_id()}) [{allocatedCourseName}]'
 
   def get_day(self) -> int:
     return self.__day
@@ -25,7 +26,7 @@ class Slot:
     return self.__allocatedCourse
 
   def is_filled(self) -> bool:
-    return self.__allocatedCourse is None
+    return self.__allocatedCourse is not None
 
   def update_allocated_course(self, course: Course) -> None:
     self.__allocatedCourse = course

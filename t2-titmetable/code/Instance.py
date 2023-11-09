@@ -21,18 +21,22 @@ class Instance:
     self.__curricula:   List[Curricula]  = []
     self.__constraints: List[Constraint] = []
 
+    self.__numClassesToAlloc = 0
+
     file.readline()
     file.readline()
 
     # Reading courses
-    for i in range(self.__numCourses):
+    for _ in range(self.__numCourses):
       line = file.readline().split()
 
-      name            = line[0]
-      teacher         = line[1]
-      weekClasses     = line[2]
-      minWeeekClasses = line[3]
-      students        = line[4]
+      name            =     line[0]
+      teacher         =     line[1]
+      weekClasses     = int(line[2])
+      minWeeekClasses = int(line[3])
+      students        = int(line[4])
+
+      self.__numClassesToAlloc += weekClasses
 
       course = Course(name, teacher, weekClasses, minWeeekClasses, students)
       self.__courses.append(course)
@@ -54,7 +58,7 @@ class Instance:
     file.readline()
 
     # Reading curricula
-    for i in range(self.__numCurricula):
+    for _ in range(self.__numCurricula):
       line = file.readline().split()
 
       name = line[0]
@@ -72,7 +76,7 @@ class Instance:
     file.readline()
 
     # Reading constraints
-    for i in range(self.__numConstraints):
+    for _ in range(self.__numConstraints):
       line = file.readline().split()
 
       name   = line[0]
@@ -173,6 +177,9 @@ class Instance:
 
   def get_constraints(self) -> List[Constraint]:
     return self.__constraints
+
+  def get_num_classes_to_alloc(self) -> int:
+    return self.__numClassesToAlloc
 
   def __get_course_by_name(self, name: str) -> Course:
     for course in self.__courses:
