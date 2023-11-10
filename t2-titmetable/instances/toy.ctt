@@ -1,8 +1,8 @@
 Name: Toy
 Courses: 4
 Rooms: 3
-Days: 2
-Periods_per_day: 3
+Days: 5
+Periods_per_day: 4
 Curricula: 2
 Constraints: 8
 

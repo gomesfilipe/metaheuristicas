@@ -11,7 +11,7 @@ class Curricula:
     self.__numCourses = len(courses)
 
   def __str__(self) -> str:
-    return f'name: {self.__name} | numCourses: {self.__numCourses} | courses: ' + ' '.join([course for course in self.__courses])
+    return f'name: {self.__name} | numCourses: {self.__numCourses} | courses: ' + ' '.join([course.__str__() for course in self.__courses])
 
   def get_name(self) -> str:
     return self.__name

@@ -66,7 +66,7 @@ class Instance:
       line.pop(0) # Remaining only courses
       line.pop(0) # Remaining only courses
 
-      courses: List[Course] = [self.__get_course_by_name(courseName) for courseName in line]
+      courses: List[Course] = [self.get_course_by_name(courseName) for courseName in line]
       courses: Set[Course] = set(courses)
 
       curricula = Curricula(name, courses)
@@ -92,8 +92,9 @@ class Instance:
 
     # Updating constraints and curricula in courses
     for course in self.__courses:
-      course.updateConstraints(self.__constraints)
-      course.updateCurricula(self.__curricula)
+      course.update_constraints(self.__constraints)
+      course.update_curricula(self.__curricula)
+      course.update_conflicts()
 
   def __str__(self) -> str:
     instance = 'INSTANCE'
@@ -181,7 +182,7 @@ class Instance:
   def get_num_classes_to_alloc(self) -> int:
     return self.__numClassesToAlloc
 
-  def __get_course_by_name(self, name: str) -> Course:
+  def get_course_by_name(self, name: str) -> Course:
     for course in self.__courses:
       if course.get_name() == name:
         return course
@@ -190,6 +191,11 @@ class Instance:
 # print(Instance('../instances/toy.ctt'))
 
 # instance = Instance('../instances/toy.ctt')
+
+# course = instance.get_course_by_name('TecCos')
+
+# print(course)
+# print(course.get_conflicts())
 
 # a1 = instance.get_courses()[0]
 # a2 = instance.get_courses()[2]

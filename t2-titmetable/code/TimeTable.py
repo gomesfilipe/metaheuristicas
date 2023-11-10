@@ -11,15 +11,6 @@ class TimeTable:
   def __init__(self, instance: Instance) -> None:
     self.__instance = instance
 
-    # unallocatedClassesAux: List[Course] = []
-
-    # for course in self.__instance.get_courses():
-    #   for _ in range(course.get_week_classes()):
-    #     unallocatedClassesAux.append(course)
-
-    # self.__classesToAlloc: Dict[Course, int] = Counter(unallocatedClassesAux)
-    # self.__allocatedClasses: Dict[Course, int] = Counter([])
-
     self.__classesToAlloc: List[Course] = []
     self.__allocatedClasses: List[Course] = []
 
@@ -67,14 +58,14 @@ class TimeTable:
 
     # TRATAR CONSTRAINT DE COURSE
     for day in range(self.__instance.get_days()):
-      if not self.__classesToAlloc:
+      if not self.__classesToAlloc: # Empty
         break
 
       for period in range(self.__instance.get_periods_per_day()):
-        if not self.__classesToAlloc:
+        if not self.__classesToAlloc: # Empty
           break
 
-        self.__noConflicts: List[Course] = self.__classesToAlloc.copy()
+        self.__noConflicts: List[Course] = [course for course in self.__classesToAlloc if course.can__alloc_in_day_period(day, period)]
 
         for room in range(self.__instance.get_num_rooms()):
           if not self.__noConflicts: # Empty
@@ -88,23 +79,6 @@ class TimeTable:
 
           self.__classesToAlloc.remove(course)
           self.__allocatedClasses.append(course)
-
-
-    # for curricula in self.__instance.get_curricula():
-    #   for course in curricula.get_courses():
-    #     for _ in range(self.__classesToAlloc[course]):
-    #       while(True):
-    #         print(len(self.__availableSlots), len(self.__unavailableSlots))
-    #         slot = self.get_random_available_slot()
-
-    #         if self.canAllocCourseOnSlot(course, slot):
-    #           slot.update_allocated_course(course)
-    #           break
-    #         else:
-    #           self.__availableSlots.append(slot)
-    #           self.__unavailableSlots.remove(slot)
-
-    #     self.__classesToAlloc[course] = 0 # All classes have been allocated already
 
   def canAllocCourseOnSlot(self, course: Course, slot: Slot) -> bool:
     if slot.is_filled():
