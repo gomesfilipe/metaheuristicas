@@ -5,15 +5,15 @@ from typing import Union, List
 
 class Particle(TimeTable):
   # PSO parameters
-  w: int = None
-  c1: int = None
-  c2: int = None
+  w: int = 1
+  c1: int = 1
+  c2: int = 1
 
   # Fitness function parameters
-  a1: int = None
-  a2: int = None
-  a3: int = None
-  a4: int = None
+  a1: int = 1
+  a2: int = 5
+  a3: int = 2
+  a4: int = 1
 
   GBest: Union[List[Slot], None] = None
   GBestValue: Union[float, None] = None
