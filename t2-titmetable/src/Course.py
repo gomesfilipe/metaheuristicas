@@ -71,7 +71,7 @@ class Course:
   def can_alloc_in_slot(self, slot: Slot) -> bool:
     return not any(slot.get_day() == c.get_day() and slot.get_period() == c.get_period() for c in self.__constraints)
 
-  def can__alloc_in_day_period(self, day: int, period: int) -> bool:
+  def can_alloc_in_day_period(self, day: int, period: int) -> bool:
     return not any(day == c.get_day() and period == c.get_period() for c in self.__constraints)
 
   def there_is_conflict(self, course: 'Course') -> bool:

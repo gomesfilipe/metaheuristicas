@@ -79,9 +79,9 @@ class Instance:
     for _ in range(self.__numConstraints):
       line = file.readline().split()
 
-      name   = line[0]
-      day    = line[1]
-      period = line[2]
+      name   =     line[0]
+      day    = int(line[1])
+      period = int(line[2])
 
       constraint = Constraint(name, day, period)
       self.__constraints.append(constraint)
