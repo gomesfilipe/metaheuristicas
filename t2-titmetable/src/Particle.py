@@ -24,6 +24,9 @@ class Particle(TimeTable):
     self.__PBest = super().get_copy_slots()
     self.__PBestValue: Union[float, None] = self.fitness()
 
+  def __str__(self) -> str:
+    return super().__str__() + f'\nfitness: {self.fitness()}'
+
   def fitness(self) -> int:
     if not self.satisfies_h1() or not self.satisfies_h2() or not self.satisfies_h3() or not self.satisfies_h4():
       return float('inf')
@@ -57,8 +60,15 @@ class Particle(TimeTable):
 
 path = '../instances/toy.ctt'
 instance = Instance(path)
+print(instance)
 tt = Particle(instance)
 # tt.fill()
 print(tt)
 
-print(tt.fitness())
+# print(tt.compute_s1())
+# print(tt.compute_s2())
+# print(tt.compute_s3())
+# print(tt.compute_s4())
+# print(tt.satisfies_h1())
+
+# print(tt.fitness())

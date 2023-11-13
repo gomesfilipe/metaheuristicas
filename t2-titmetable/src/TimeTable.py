@@ -206,7 +206,7 @@ class TimeTable:
           course = slot.get_allocated_course()
 
           if course in count:
-            count[course].add(day)
+            count[course].add(room)
           else:
             count[course] = set([room])
 
@@ -230,18 +230,29 @@ class TimeTable:
     room = slot.get_room().get_id()
 
     if period == 0: # First class
-      nextClassCourse = self.get_slot_by_attributes(day, period, room + 1).get_allocated_course()
-      return not slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse)
+      for r in range(self.__instance.get_num_rooms()):
+        nextClassCourse = self.get_slot_by_attributes(day, period + 1, r).get_allocated_course()
+
+        if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse):
+          return False
+      return True
 
     elif period == self.__instance.get_periods_per_day() - 1: # Last class
-      previousClassCourse = self.get_slot_by_attributes(day, period, room - 1).get_allocated_course()
-      return not slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse)
+      for r in range(self.__instance.get_num_rooms()):
+        previousClassCourse = self.get_slot_by_attributes(day, period - 1, r).get_allocated_course()
+
+        if slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
+          return False
+      return True
 
     else:
-      nextClassCourse = self.get_slot_by_attributes(day, period, room + 1).get_allocated_course()
-      previousClassCourse = self.get_slot_by_attributes(day, period, room - 1).get_allocated_course()
-      return not slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse) and not slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse)
+      for r in range(self.__instance.get_num_rooms()):
+        nextClassCourse = self.get_slot_by_attributes(day, period + 1, r).get_allocated_course()
+        previousClassCourse = self.get_slot_by_attributes(day, period - 1, r).get_allocated_course()
 
+        if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse) or slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
+          return False
+      return True
 
 # path = '../instances/toy.ctt'
 # instance = Instance(path)

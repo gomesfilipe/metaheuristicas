@@ -12,5 +12,7 @@ class Swarm:
     Particle.a3 = a3
     Particle.a4 = a4
 
-    self.__particles = [Particle(Instance) for _ in range(population)]
-  
+    self.__particles = [Particle(instance) for _ in range(population)]
+
+  def __str__(self) -> str:
+    return '\n'.join([p.__str__() + '\n' for p in self.__particles])
