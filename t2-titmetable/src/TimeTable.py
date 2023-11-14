@@ -8,6 +8,9 @@ from collections import Counter
 import random
 
 class TimeTable:
+  fillAttempts: int = 10
+  insertRandomlyAttempts: int = 10
+
   def __init__(self, instance: Instance) -> None:
     self.__instance = instance
 
@@ -57,6 +60,7 @@ class TimeTable:
       print(f'There is no feasible solution for [{self.__instance.get_name()}] instance')
       exit()
 
+    # Alloc without conflicts day, period and teacher
     for day in range(self.__instance.get_days()):
       if not self.__classesToAlloc: # Empty
         break
@@ -77,8 +81,18 @@ class TimeTable:
           slot.update_allocated_course(course)
           self.remove_conflicts(course)
 
+          self.__availableSlots.remove(slot)
+          self.__unavailableSlots.append(slot)
           self.__classesToAlloc.remove(course)
           self.__allocatedClasses.append(course)
+
+    for course in self.__classesToAlloc:
+      slot = self.get_random_available_slot()
+      slot.force_update_allocated_course(course)
+
+  def __reset_slots(self) -> None:
+    for slot in self.__slots:
+      slot.reset_slot()
 
   def get_random_available_slot(self) -> Slot:
     slot = random.choice(self.__availableSlots)

@@ -28,7 +28,13 @@ class Slot:
   def is_filled(self) -> bool:
     return self.__allocatedCourse is not None
 
-  def update_allocated_course(self, course: Course) -> None:
+  def update_allocated_course(self, course: Course) -> bool:
+    if course.can_alloc_in_day_period(self.__day, self.__period):
+      self.__allocatedCourse = course
+      return True
+    return False
+
+  def force_update_allocated_course(self, course: Course) -> None:
     self.__allocatedCourse = course
 
   def remove_allocated_course(self) -> None:
@@ -42,3 +48,6 @@ class Slot:
       return 0
 
     return self.__allocatedCourse.get_students() - self.__room.get_capacity()
+
+  def reset_slot(self) -> None:
+    self.__allocatedCourse = None
