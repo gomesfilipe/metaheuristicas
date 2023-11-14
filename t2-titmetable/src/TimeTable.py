@@ -136,7 +136,6 @@ class TimeTable:
           course = slot.get_allocated_course()
 
           if not course.can_alloc_in_day_period(day, period):
-            print('here')
             return False
     return True
 

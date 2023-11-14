@@ -60,7 +60,7 @@ class Particle(TimeTable):
 
 path = '../instances/toy.ctt'
 instance = Instance(path)
-print(instance)
+# print(instance)
 tt = Particle(instance)
 # tt.fill()
 print(tt)
