@@ -100,7 +100,7 @@ class TimeTable:
 
   def satisfies_h1(self) -> bool:
     classesToAlloc = self.get_instance().get_num_classes_to_alloc()
-    allocatedClasses = sum(slot.is_filled() for slot in self.get_slots())
+    allocatedClasses = len(self.__allocatedClasses)
     return allocatedClasses == classesToAlloc
 
   def satisfies_h2(self) -> bool:
