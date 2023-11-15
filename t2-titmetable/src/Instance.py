@@ -188,20 +188,3 @@ class Instance:
         return course
 
     return None
-# print(Instance('../instances/toy.ctt'))
-
-# instance = Instance('../instances/toy.ctt')
-
-# course = instance.get_course_by_name('TecCos')
-
-# print(course)
-# print(course.get_conflicts())
-
-# a1 = instance.get_courses()[0]
-# a2 = instance.get_courses()[2]
-
-# print(a1.get_curricula())
-# print(a2.get_curricula())
-# print(a1)
-# print(a2)
-# print(a2.belongs_to_same_curricula(a1))

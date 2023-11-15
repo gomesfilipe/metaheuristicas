@@ -36,6 +36,8 @@ class TimeTable:
     self.__availableSlots: List[Slot] = self.__slots.copy()
     self.__unavailableSlots: List[Slot] = []
 
+    self.__courseSlots: Dict[Course, List[Slot]] = {}
+
   def __str__(self) -> str:
     return '\n'.join([slot.__str__() for slot in self.__slots])
 
@@ -54,6 +56,9 @@ class TimeTable:
     index = room + numRooms * period + periodsPerDay * numRooms * day
 
     return self.__slots[index]
+
+  def get_course_slots(self) -> Dict[Course, List[Slot]]:
+    return self.__courseSlots
 
   def fill(self) -> None:
     if self.__numSlots < self.__instance.get_num_classes_to_alloc():
@@ -81,6 +86,11 @@ class TimeTable:
           slot.update_allocated_course(course)
           self.remove_conflicts(course)
 
+          if course in self.__courseSlots:
+            self.__courseSlots[course].append(slot)
+          else:
+            self.__courseSlots[course] = [slot]
+
           self.__availableSlots.remove(slot)
           self.__unavailableSlots.append(slot)
           self.__classesToAlloc.remove(course)
@@ -89,6 +99,14 @@ class TimeTable:
     for course in self.__classesToAlloc:
       slot = self.get_random_available_slot()
       slot.force_update_allocated_course(course)
+
+      if course in self.__courseSlots:
+        self.__courseSlots[course].append(slot)
+      else:
+        self.__courseSlots[course] = [slot]
+
+    noneSlots = [slot for slot in self.__slots if not slot.is_filled()]
+    self.__courseSlots[None] = noneSlots
 
   def __reset_slots(self) -> None:
     for slot in self.__slots:
@@ -266,14 +284,3 @@ class TimeTable:
         if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse) or slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
           return False
       return True
-
-# path = '../instances/toy.ctt'
-# instance = Instance(path)
-# tt = TimeTable(instance)
-# tt.fill()
-# print(tt)
-
-# print(tt.satisfies_h1())
-# print(tt.satisfies_h2())
-# print(tt.satisfies_h3())
-# print(tt.satisfies_h4())
