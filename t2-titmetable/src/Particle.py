@@ -131,12 +131,12 @@ class Particle(TimeTable):
       print(f'BestGlobal! {particle.__value}')
       Particle.GBest.update_best_particle(particle.get_copy_slots(), particle.__value)
 
-path = '../instances/toy.ctt'
-instance = Instance(path)
-tt = Particle(instance)
+# path = '../instances/toy.ctt'
+# instance = Instance(path)
+# tt = Particle(instance)
 
-print(tt)
+# print(tt)
 
-tt.rand_change_pbest()
+# tt.rand_change_pbest()
 
-print(tt)
+# print(tt)

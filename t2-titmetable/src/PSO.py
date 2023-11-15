@@ -47,12 +47,6 @@ class PSO:
 
       self.__swarm.update_swarm()
       iteration += 1
+
+    print(f'total iterations: {iteration + 1}')
     return Particle.GBest
-
-pso = PSO(200, 20, '../instances/toy.ctt')
-# pso = PSO(200, 20, '../instances/comp01.ctt')
-
-print(pso)
-best = pso.execute()
-
-print(f'BEST VALUE: {best.get_value()}')
