@@ -4,7 +4,7 @@ from typing import List, Dict, TextIO
 
 class Report:
   @staticmethod
-  def generate_data_table(filename: str, data: Dict[str, List[float]], optimalValues: Dict[str, float]):
+  def generate_data_table(filename: str, data: Dict[str, List[float]], optimalValues: Dict[str, float]) -> pd.DataFrame:
     csvFilename = f'{filename}.csv'
     file: TextIO = open(csvFilename, 'w')
 
