@@ -7,7 +7,7 @@ import random
 
 class Particle(TimeTable):
   # PSO parameters
-  w: int = 2
+  w: int = 1
   c1: int = 1
   c2: int = 1
 
@@ -25,7 +25,7 @@ class Particle(TimeTable):
   def __init__(self, instance: Instance) -> None:
     super().__init__(instance)
     super().fill()
-    self.__value = float('inf')
+    self.__value = self.fitness()
 
     self.__PBest: BestParticle = BestParticle(super().get_copy_slots(), self.__value)
 
@@ -41,6 +41,7 @@ class Particle(TimeTable):
 
   def fitness(self) -> int:
     if not self.satisfies_h1() or not self.satisfies_h2() or not self.satisfies_h3() or not self.satisfies_h4():
+      self.__value = float('inf')
       return float('inf')
 
     x1 = Particle.a1 * self.compute_s1()

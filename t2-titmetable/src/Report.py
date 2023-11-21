@@ -32,7 +32,7 @@ class Report:
 
   @staticmethod
   def __gap(value: float, optimal: float) -> float:
-    return (value - optimal) / optimal
+    return 0 if optimal == 0 else ((value - optimal) / optimal)
 
   @staticmethod
   def __generate_gaps(values: List[float], optimal: float) -> List[float]:
