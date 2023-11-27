@@ -3,9 +3,10 @@ from Slot import Slot
 from Course import Course
 from Curricula import Curricula
 import itertools
-from typing import List, Set, Dict, Union
+from typing import List, Set, Dict, Union, Tuple
 from collections import Counter
 import random
+import heapq
 
 class TimeTable:
   fillAttempts: int = 10
@@ -284,3 +285,68 @@ class TimeTable:
         if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse) or slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
           return False
       return True
+
+  def can_alloc_course_in_slot(self, course: Course, slot: Slot) -> bool:
+    day: int = slot.get_day()
+    period: int = slot.get_period()
+    room: int = slot.get_room().get_id()
+
+    if not course.can_alloc_in_day_period(day, period):
+      return False
+
+    for roomIndex in range(self.__instance.get_num_rooms()):
+      if roomIndex == room:
+        continue
+
+      iterSlot = self.get_slot_by_attributes(day, period, roomIndex)
+
+      if not iterSlot.is_filled():
+        continue
+
+      iterCourse = iterSlot.get_allocated_course()
+
+      if course.there_is_conflict(iterCourse):
+        return False
+    return True
+
+  def most_conflitant_class(self) -> Union[Course, None]:
+    calculated: Dict[Course, bool] = {}
+    pq: List[Tuple[int, Course]] = []
+
+    for course in self.__classesToAlloc:
+      if course in calculated:
+        continue
+
+      conflicts: int = 0
+
+      for day in range(self.__instance.get_days()):
+        for period in range(self.__instance.get_periods_per_day()):
+          for room in range(self.__instance.get_num_rooms()):
+            slot = self.get_slot_by_attributes(day, period, room)
+
+            if not self.can_alloc_course_in_slot(course, slot):
+              conflicts += 1
+
+      heapq.heappush(pq, (-conflicts, course)) # Mult by -1 to transform in max heap
+      calculated[course] = True
+
+    if not pq: # empty, no courses to alloc
+      return None
+
+    mostConflitants: List[Course] = []
+
+    maxNumberConflicts: int = pq[0][0] # first element in heap, first element in tuple
+
+    while pq:
+      maxPartialConflicts, maxCourse = heapq.heappop(pq) # desestructuring tuple
+
+      if maxPartialConflicts == maxNumberConflicts:
+        mostConflitants.append(maxCourse)
+      else:
+        break
+
+    if len(mostConflitants) == 1:
+      return mostConflitants[0]
+
+    pass # fazer desempate
+
