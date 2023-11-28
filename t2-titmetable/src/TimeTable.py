@@ -9,9 +9,6 @@ import random
 import heapq
 
 class TimeTable:
-  fillAttempts: int = 10
-  insertRandomlyAttempts: int = 10
-
   def __init__(self, instance: Instance) -> None:
     self.__instance = instance
 
@@ -51,6 +48,12 @@ class TimeTable:
   def get_copy_slots(self) -> List[Slot]:
     return [slot.copy() for slot in self.__slots]
 
+  def get_allocated_classes(self) -> List[Course]:
+    return self.__allocatedClasses
+
+  def get_classes_to_alloc(self) -> List[Course]:
+    return self.__classesToAlloc
+
   def get_slot_by_attributes(self, day: int, period: int, room: int) -> Slot:
     numRooms = self.__instance.get_num_rooms()
     periodsPerDay = self.__instance.get_periods_per_day()
@@ -60,6 +63,19 @@ class TimeTable:
 
   def get_course_slots(self) -> Dict[Course, List[Slot]]:
     return self.__courseSlots
+
+  def update_course_slots(self) -> None:
+    for day in range(self.__instance.get_days()):
+      for period in range(self.__instance.get_periods_per_day()):
+        for room in range(self.__instance.get_num_rooms()):
+          slot = self.get_slot_by_attributes(day, period, room)
+
+          course = slot.get_allocated_course()
+
+          if course in self.__courseSlots:
+            self.__courseSlots[course].append(slot)
+          else:
+            self.__courseSlots[course] = [slot]
 
   def fill(self) -> None:
     if self.__numSlots < self.__instance.get_num_classes_to_alloc():
@@ -109,7 +125,7 @@ class TimeTable:
     noneSlots = [slot for slot in self.__slots if not slot.is_filled()]
     self.__courseSlots[None] = noneSlots
 
-  def __reset_slots(self) -> None:
+  def reset_slots(self) -> None:
     for slot in self.__slots:
       slot.reset_slot()
 
@@ -204,7 +220,10 @@ class TimeTable:
     minDaysOverflow: int = 0
 
     for course in self.__instance.get_courses():
-      distinctDays = len(count[course])
+      if course in count:
+        distinctDays = len(count[course])
+      else:
+        distinctDays = 0
 
       if distinctDays < course.get_min_week_classes():
         minDaysOverflow += course.get_min_week_classes() - distinctDays
@@ -245,7 +264,11 @@ class TimeTable:
     roomsOverflow: int = 0
 
     for course in self.__instance.get_courses():
-      distinctRooms = len(count[course])
+      if course in count:
+        distinctRooms = len(count[course])
+      else:
+        distinctRooms = 1
+
       roomsOverflow += distinctRooms - 1
 
     return roomsOverflow
@@ -294,6 +317,9 @@ class TimeTable:
     if not course.can_alloc_in_day_period(day, period):
       return False
 
+    if slot.is_filled():
+      return False
+
     for roomIndex in range(self.__instance.get_num_rooms()):
       if roomIndex == room:
         continue
@@ -313,7 +339,7 @@ class TimeTable:
     calculated: Dict[Course, bool] = {}
     pq: List[Tuple[int, Course]] = []
 
-    for course in self.__classesToAlloc:
+    for index, course in enumerate(self.__classesToAlloc):
       if course in calculated:
         continue
 
@@ -327,7 +353,7 @@ class TimeTable:
             if not self.can_alloc_course_in_slot(course, slot):
               conflicts += 1
 
-      heapq.heappush(pq, (-conflicts, course)) # Mult by -1 to transform in max heap
+      heapq.heappush(pq, (-conflicts, index, course)) # Mult by -1 to transform in max heap, index to break ties
       calculated[course] = True
 
     if not pq: # empty, no courses to alloc
@@ -338,7 +364,7 @@ class TimeTable:
     maxNumberConflicts: int = pq[0][0] # first element in heap, first element in tuple
 
     while pq:
-      maxPartialConflicts, maxCourse = heapq.heappop(pq) # desestructuring tuple
+      maxPartialConflicts, index, maxCourse = heapq.heappop(pq) # desestructuring tuple
 
       if maxPartialConflicts == maxNumberConflicts:
         mostConflitants.append(maxCourse)
@@ -348,5 +374,13 @@ class TimeTable:
     if len(mostConflitants) == 1:
       return mostConflitants[0]
 
-    pass # fazer desempate
+    # more room/hour pairs available
 
+    # class in most curricula
+    maxCurricula = max([len(course.get_curricula()) for course in mostConflitants])
+    mostCurricula: List[Course] = [course for course in mostConflitants if len(course.get_curricula()) == maxCurricula]
+
+    if(len(mostCurricula) == 1):
+      return mostCurricula[0]
+
+    return random.choice(mostCurricula)

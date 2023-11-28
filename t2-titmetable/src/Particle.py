@@ -2,7 +2,8 @@ from TimeTable import TimeTable
 from Instance import Instance
 from BestParticle import BestParticle
 from Slot import Slot
-from typing import Union, List
+from Course import Course
+from typing import Union, List, Dict
 import random
 
 class Particle(TimeTable):
@@ -17,23 +18,45 @@ class Particle(TimeTable):
   a3: int = 2
   a4: int = 1
 
-  # GBest: Union[List[Slot], None] = None
-  # GBestValue: float = float('inf')
+  # Grasp parameter
+  alpha: float = 0.1
+
+  # Attempts to generate feasible solutions for each particle
+  attempts: int = 3
 
   GBest: BestParticle = None
 
   def __init__(self, instance: Instance) -> None:
     super().__init__(instance)
-    super().fill()
-    self.__value = self.fitness()
 
-    self.__PBest: BestParticle = BestParticle(super().get_copy_slots(), self.__value)
+    # try [attempts] times generate a feasible solution.
+    # if it don't work, discard the particle.
+    attempt = 0
+    for _ in range(Particle.attempts):
+      self.reset_slots()
+
+      if self.graspInit():
+        self.__value = self.fitness()
+        print('value:', self.__value)
+        break
+      attempt += 1
+      print('infinity')
+
+    if attempt == Particle.attempts:
+      self.__isFeasible: bool = False
+    else:
+      self.__isFeasible: bool = True
+
+    self.__PBest: BestParticle = BestParticle(self.get_copy_slots(), self.__value)
 
   def get_value(self) -> float:
     return self.__value
 
   def get_pbest(self) -> BestParticle:
     return self.__PBest
+
+  def get_is_feasible(self) -> bool:
+    return self.__isFeasible
 
   def __str__(self) -> str:
     return super().__str__() + f'\nfitness: {self.fitness()}'
@@ -131,6 +154,59 @@ class Particle(TimeTable):
     if particle.__value < Particle.GBest.get_value():
       print(f'BestGlobal! {particle.__value}')
       Particle.GBest.update_best_particle(particle.get_copy_slots(), particle.__value)
+
+  def greedy(self, course: Course, slot: Slot) -> float:
+    if not self.can_alloc_course_in_slot(course, slot):
+      return float('inf')
+
+    slot.update_allocated_course(course)
+
+    x1 = Particle.a1 * self.compute_s1()
+    x2 = Particle.a2 * self.compute_s2()
+    x3 = Particle.a3 * self.compute_s3()
+    x4 = Particle.a4 * self.compute_s4()
+
+    slot.remove_allocated_course()
+    return x1 + x2 + x3 + x4
+
+  def graspInit(self) -> bool:
+    classesToAlloc: List[Course] = self.get_classes_to_alloc()
+    allocatedClasses: List[Course] = self.get_allocated_classes()
+
+    while classesToAlloc: # while there are classes to alloc
+      course = self.most_conflitant_class()
+      greedyValues: Dict[Slot, float] = {}
+
+      for day in range(self.get_instance().get_days()):
+        for period in range(self.get_instance().get_periods_per_day()):
+          for room in range(self.get_instance().get_num_rooms()):
+            slot = self.get_slot_by_attributes(day, period, room)
+
+            greedy = self.greedy(course, slot)
+            greedyValues[slot] = greedy
+
+      values = [value for slot, value in greedyValues.items() if value != float('inf')]
+
+      if not values: # infinity to all slots, unfeasible solution
+        return False
+
+      minValue = min(values)
+      maxValue = max(values)
+
+      lrc: List[Slot] = []
+
+      for slot, value in greedyValues.items():
+        if value <= minValue + Particle.alpha * (maxValue - minValue): # grasp condition
+          lrc.append(slot)
+
+      slot: Slot = random.choice(lrc)
+      slot.update_allocated_course(course)
+
+      classesToAlloc.remove(course)
+      allocatedClasses.append(course)
+
+    self.update_course_slots()
+    return True
 
 # path = '../instances/toy.ctt'
 # instance = Instance(path)

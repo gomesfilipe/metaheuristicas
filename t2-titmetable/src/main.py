@@ -8,7 +8,7 @@ TIME_EXECUTION: int = 10 # Defined by benchmark
 # TIME_EXECUTION: int = 216 # Defined by benchmark
 EXECS_PER_INSTANCES: int = 5 # Defined in project statement
 # POPULATION_SIZE: int = 20 # Defined by author
-POPULATION_SIZE: int = 1 # Defined by author
+POPULATION_SIZE: int = 20 # Defined by author
 
 # Instances filenames
 CURRENT_DIR: str = os.getcwd()
@@ -22,6 +22,8 @@ allInstances = list(filter(lambda filename: filename not in toyInstances, os.lis
 
 allInstancesFullPath = [f'../{INSTANCES_DIR}/{filename}' for filename in allInstances]
 toyInstancesFullPath = [f'../{INSTANCES_DIR}/{filename}' for filename in toyInstances]
+easyInstancesFullPath = [f'../{INSTANCES_DIR}/{filename}' for filename in easyInstances]
+hardInstancesFullPath = [f'../{INSTANCES_DIR}/{filename}' for filename in hardInstances]
 
 # Generate reports
 data: Dict[str, List[float]] = {}
@@ -31,12 +33,12 @@ optimalValuesList: List[float] = [
 ] # Find the optimal values
 
 # Init dictionaries to generate reports
-for index, instance in enumerate(allInstances):
+for index, instance in enumerate(hardInstances):
   data[instance] = []
   optimalValues[instance] = optimalValuesList[index]
 
 # for instance in allInstancesFullPath:
-for index, instance in enumerate(toyInstancesFullPath):
+for index, instance in enumerate(easyInstancesFullPath):
   for _ in range(EXECS_PER_INSTANCES):
     pso = PSO(TIME_EXECUTION, POPULATION_SIZE, instance)
     # print(pso)
@@ -51,7 +53,7 @@ for index, instance in enumerate(toyInstancesFullPath):
     # data[instance].append(10) # Just testing the Report class, remove afterward
 
 
-REPORT_FILENAME = '../reports/report'
-df = Report.generate_data_table(REPORT_FILENAME, data, optimalValues)
+# REPORT_FILENAME = '../reports/report'
+# df = Report.generate_data_table(REPORT_FILENAME, data, optimalValues)
 
-print(df)
+# print(df)

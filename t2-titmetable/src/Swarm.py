@@ -17,6 +17,9 @@ class Swarm:
 
     self.__particles = [Particle(instance) for _ in range(population)]
 
+    # filter only feasible solutions
+    self.__particles = [particle for particle in self.__particles if particle.get_is_feasible()]
+
     Particle.GBest: BestParticle = BestParticle(self.__particles[0].get_copy_slots(), self.__particles[0].get_value())
 
   def __str__(self) -> str:
