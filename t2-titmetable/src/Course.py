@@ -82,22 +82,16 @@ class Course:
     return False
 
   def belongs_to_same_curricula(self, course: 'Course') -> bool:
-    if course in self.__checkCurricula:
-      return True
-    return False
+    return course in self.__checkCurricula
 
   def has_same_teacher(self, course: 'Course') -> bool:
     return self.__teacher == course.__teacher
 
   def can_alloc_in_day_period(self, day: int, period: int) -> bool:
-    if f'{day}-{period}' in self.__checkConstraints:
-      return False
-    return True
+    return not f'{day}-{period}' in self.__checkConstraints
 
   def __there_is_conflict_aux(self, course: 'Course') -> bool:
     return self.has_same_teacher(course) or self.__belongs_to_same_curricula_aux(course)
 
   def there_is_conflict(self, course: 'Course') -> bool:
-    if course in self.__checkConflicts:
-      return True
-    return False
+    return course in self.__checkConflicts

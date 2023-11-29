@@ -19,6 +19,10 @@ class TimeTable:
       for _ in range(course.get_week_classes()):
         self.__classesToAlloc.append(course)
 
+    # Backup if it needs rerun graspInit
+    self.__classesToAllocCopy: List[Course] = self.__classesToAlloc.copy()
+    self.__allocatedClassesCopy: List[Course] = self.__allocatedClasses.copy()
+
     slots = itertools.product(
       range(self.__instance.get_days()),
       range(self.__instance.get_periods_per_day()),
@@ -65,6 +69,8 @@ class TimeTable:
     return self.__courseSlots
 
   def update_course_slots(self) -> None:
+    self.__courseSlots.clear()
+
     for day in range(self.__instance.get_days()):
       for period in range(self.__instance.get_periods_per_day()):
         for room in range(self.__instance.get_num_rooms()):
@@ -128,6 +134,10 @@ class TimeTable:
   def reset_slots(self) -> None:
     for slot in self.__slots:
       slot.reset_slot()
+
+  def reset_classes_to_alloc(self) -> None:
+    self.__classesToAlloc = self.__classesToAllocCopy.copy()
+    self.__allocatedClasses = self.__allocatedClassesCopy.copy()
 
   def get_random_available_slot(self) -> Slot:
     slot = random.choice(self.__availableSlots)
@@ -314,10 +324,10 @@ class TimeTable:
     period: int = slot.get_period()
     room: int = slot.get_room().get_id()
 
-    if not course.can_alloc_in_day_period(day, period):
+    if slot.is_filled():
       return False
 
-    if slot.is_filled():
+    if not course.can_alloc_in_day_period(day, period):
       return False
 
     for roomIndex in range(self.__instance.get_num_rooms()):

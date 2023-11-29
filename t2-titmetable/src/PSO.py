@@ -7,10 +7,13 @@ import time
 import numpy as np
 
 class PSO:
-  def __init__(self, time: int, population: int, instanceFilename: str, logFile: TextIO = None) -> None:
-    self.__instance = Instance(instanceFilename)
+  def __init__(
+    self, time: int, population: int, instance: Instance, logFile: TextIO = None,
+    w: int = 1, c1: int = 1, c2: int = 1, a1: int = 1, a2: int = 5, a3: int = 2, a4: int = 1
+  ) -> None:
+    self.__instance = instance
     self.__time = time
-    self.__swarm = Swarm(population, self.__instance)
+    self.__swarm = Swarm(population, self.__instance, w, c1, c2, a1, a2, a3, a4)
     self.__logFile = logFile
 
   def __str__(self) -> str:

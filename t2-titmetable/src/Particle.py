@@ -33,19 +33,15 @@ class Particle(TimeTable):
     # if it don't work, discard the particle.
     attempt = 0
     for _ in range(Particle.attempts):
-      self.reset_slots()
-
+      # self.reset_slots()
       if self.graspInit():
         self.__value = self.fitness()
-        print('value:', self.__value)
+        print('particle:', self.__value)
         break
       attempt += 1
       print('infinity')
 
-    if attempt == Particle.attempts:
-      self.__isFeasible: bool = False
-    else:
-      self.__isFeasible: bool = True
+    self.__isFeasible: bool = not (attempt == Particle.attempts)
 
     self.__PBest: BestParticle = BestParticle(self.get_copy_slots(), self.__value)
 
@@ -62,8 +58,11 @@ class Particle(TimeTable):
     return super().__str__() + f'\nfitness: {self.fitness()}'
     # return f'fitness: {self.fitness()}'
 
+  def isFeasible(self) -> bool:
+    return self.satisfies_h1() and self.satisfies_h2() and self.satisfies_h3() and self.satisfies_h4()
+
   def fitness(self) -> int:
-    if not self.satisfies_h1() or not self.satisfies_h2() or not self.satisfies_h3() or not self.satisfies_h4():
+    if not self.isFeasible():
       self.__value = float('inf')
       return float('inf')
 
@@ -85,65 +84,99 @@ class Particle(TimeTable):
   def get_random_slot_from_particle(self) -> Slot:
     return random.choice(self.get_slots())
 
-  def swap_courses(self, slotA: Slot, slotB: Slot) -> None:
+  def swap_courses(self, slotA: Slot, slotB: Slot) -> bool:
+    # swap guarantes feasibility
     courseA = slotA.get_allocated_course()
     courseB = slotB.get_allocated_course()
+
+    slotA.remove_allocated_course()
+    slotB.remove_allocated_course()
+
+    if courseA is not None:
+      if not self.can_alloc_course_in_slot(courseA, slotB):
+        slotA.force_update_allocated_course(courseA)
+        slotB.force_update_allocated_course(courseB)
+        return False
+
+    if courseB is not None:
+      if not self.can_alloc_course_in_slot(courseB, slotA):
+        slotA.force_update_allocated_course(courseA)
+        slotB.force_update_allocated_course(courseB)
+        return False
 
     slotA.force_update_allocated_course(courseB)
     slotB.force_update_allocated_course(courseA)
 
     courseSlots = self.get_course_slots()
 
-    if courseA is not None:
-      courseSlots[courseA].remove(slotA)
-      courseSlots[courseA].append(slotB)
+    # if courseA is not None:
+    courseSlots[courseA].remove(slotA)
+    courseSlots[courseA].append(slotB)
 
-    if courseB is not None:
-      courseSlots[courseB].remove(slotB)
-      courseSlots[courseB].append(slotA)
+  # if courseB is not None:
+    courseSlots[courseB].remove(slotB)
+    courseSlots[courseB].append(slotA)
 
   def rand_mutate(self) -> None:
+    # execute [w] swaps, each of them try [attempts] times
     for _ in range(Particle.w):
-      slotA: Slot = self.get_random_slot_from_particle()
-      slotB: Slot = self.get_random_slot_from_particle()
-      self.swap_courses(slotA, slotB)
+      for __ in range(Particle.attempts):
+        slotA: Slot = self.get_random_slot_from_particle()
+        slotB: Slot = self.get_random_slot_from_particle()
+
+        if self.swap_courses(slotA, slotB):
+          break
 
   def rand_change_pbest(self) -> None:
+    # execute [c1] swaps, each of them try [attempts] times
     for _ in range(Particle.c1):
-      slotPBest = self.get_random_slot_from_pbest()
-      coursePBest = slotPBest.get_allocated_course()
+      for __ in range(Particle.attempts):
+        slotPBest = self.get_random_slot_from_pbest()
+        coursePBest = slotPBest.get_allocated_course()
 
-      dayPBest = slotPBest.get_day()
-      periodPBest = slotPBest.get_period()
-      roomPBest = slotPBest.get_room().get_id()
+        dayPBest = slotPBest.get_day()
+        periodPBest = slotPBest.get_period()
+        roomPBest = slotPBest.get_room().get_id()
 
-      courseSlots = self.get_course_slots()
+        courseSlots = self.get_course_slots()
 
-      slotSameCoursePBest = random.choice(courseSlots[coursePBest])
-      slotSameDayPeriodRoomPBest = self.get_slot_by_attributes(dayPBest, periodPBest, roomPBest)
+        slotSameCoursePBest = random.choice(courseSlots[coursePBest])
+        slotSameDayPeriodRoomPBest = self.get_slot_by_attributes(dayPBest, periodPBest, roomPBest)
 
-      self.swap_courses(slotSameCoursePBest, slotSameDayPeriodRoomPBest)
+        if self.swap_courses(slotSameCoursePBest, slotSameDayPeriodRoomPBest):
+          break
 
   def rand_change_gbest(self) -> None:
+    # execute [c2] swaps, each of them try [attempts] times
     for _ in range(Particle.c2):
-      slotGBest = self.get_random_slot_from_gbest()
-      courseGBest = slotGBest.get_allocated_course()
+      for __ in range(Particle.attempts):
+        slotGBest = self.get_random_slot_from_gbest()
+        courseGBest = slotGBest.get_allocated_course()
 
-      dayGBest = slotGBest.get_day()
-      periodGBest = slotGBest.get_period()
-      roomGBest = slotGBest.get_room().get_id()
+        dayGBest = slotGBest.get_day()
+        periodGBest = slotGBest.get_period()
+        roomGBest = slotGBest.get_room().get_id()
 
-      courseSlots = self.get_course_slots()
+        courseSlots = self.get_course_slots()
 
-      slotSameCourseGBest = random.choice(courseSlots[courseGBest])
-      slotSameDayPeriodRoomGBest = self.get_slot_by_attributes(dayGBest, periodGBest, roomGBest)
+        try:
+          slotSameCourseGBest = random.choice(courseSlots[courseGBest])
+        except Exception as e:
+          print(e)
+          print(courseGBest)
+          print(courseSlots)
+          print(Particle.GBest)
+          exit()
+        slotSameDayPeriodRoomGBest = self.get_slot_by_attributes(dayGBest, periodGBest, roomGBest)
 
-      self.swap_courses(slotSameCourseGBest, slotSameDayPeriodRoomGBest)
+        if self.swap_courses(slotSameCourseGBest, slotSameDayPeriodRoomGBest):
+          break
 
   def update_position(self):
     self.rand_mutate()
     self.rand_change_pbest()
     self.rand_change_gbest()
+    self.__value = self.fitness()
 
   def update_pbest(self) -> None:
     if self.__value < self.__PBest.get_value():
@@ -173,6 +206,13 @@ class Particle(TimeTable):
     classesToAlloc: List[Course] = self.get_classes_to_alloc()
     allocatedClasses: List[Course] = self.get_allocated_classes()
 
+    # print(classesToAlloc)
+    # print()
+    # print()
+    # print()
+    # print(classesToAlloc.copy())
+    # exit()
+
     while classesToAlloc: # while there are classes to alloc
       course = self.most_conflitant_class()
       greedyValues: Dict[Slot, float] = {}
@@ -188,6 +228,8 @@ class Particle(TimeTable):
       values = [value for slot, value in greedyValues.items() if value != float('inf')]
 
       if not values: # infinity to all slots, unfeasible solution
+        self.reset_slots()
+        self.reset_classes_to_alloc()
         return False
 
       minValue = min(values)

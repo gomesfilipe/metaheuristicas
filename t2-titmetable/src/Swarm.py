@@ -5,7 +5,9 @@ from BestParticle import BestParticle
 from typing import Union, List
 
 class Swarm:
-  def __init__(self, population: int, instance: Instance, w: int = 1, c1: int = 1, c2: int = 1, a1: int = 1, a2: int = 5, a3: int = 2, a4: int = 1) -> None:
+  def __init__(self, population: int, instance: Instance,
+    w: int, c1: int, c2: int, a1: int, a2: int, a3: int, a4: int
+  ) -> None:
     Particle.w = w
     Particle.c1 = c1
     Particle.c2 = c2
@@ -20,6 +22,11 @@ class Swarm:
     # filter only feasible solutions
     self.__particles = [particle for particle in self.__particles if particle.get_is_feasible()]
 
+    # if population is empty
+    if not self.__particles:
+      print("No feasible solutions found.")
+      exit()
+
     Particle.GBest: BestParticle = BestParticle(self.__particles[0].get_copy_slots(), self.__particles[0].get_value())
 
   def __str__(self) -> str:
@@ -28,6 +35,6 @@ class Swarm:
 
   def update_swarm(self):
     for particle in self.__particles:
-      particle.update_pbest()
       Particle.update_gbest(particle)
+      particle.update_pbest()
       particle.update_position()
