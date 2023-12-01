@@ -6,11 +6,11 @@ from Instance import Instance
 
 TIME_EXECUTION: int = 216 # Defined by benchmark
 EXECS_PER_INSTANCES: int = 3 # Defined in project statement
-POPULATION_SIZE: int = 10 # Defined by author
+POPULATION_SIZE: int = 5 # Defined by author
 
-C1 = 3
-C2 = 3
-W = 2
+C1 = 1
+C2 = 1
+W = 1
 
 CURRENT_DIR: str = os.getcwd()
 INSTANCES_DIR: str = 'instances'
@@ -33,27 +33,27 @@ optimalValues: Dict[str, float] = {} # Values are the optimum of given instance
 
 optimalValuesAllInstances: Dict[str, float] = {
   'toy.ctt'   :  10,
-  'comp01.ctt':   4,
-  'comp02.ctt':  15,
-  'comp03.ctt':  49,
+  'comp01.ctt':   5,
+  'comp02.ctt':  24,
+  'comp03.ctt':  64,
   'comp04.ctt':  35,
-  'comp05.ctt': 209,
-  'comp06.ctt':  23,
+  'comp05.ctt': 284,
+  'comp06.ctt':  27,
   'comp07.ctt':   6,
   'comp08.ctt':  37,
   'comp09.ctt':  96,
   'comp10.ctt':   4,
   'comp11.ctt':   0,
-  'comp12.ctt': 128,
+  'comp12.ctt': 294,
   'comp13.ctt':  59,
   'comp14.ctt':  51,
-  'comp15.ctt':  49,
+  'comp15.ctt':  62,
   'comp16.ctt':  18,
-  'comp17.ctt':  47,
-  'comp18.ctt':  44,
+  'comp17.ctt':  56,
+  'comp18.ctt':  61,
   'comp19.ctt':  57,
   'comp20.ctt':   4,
-  'comp21.ctt':  66,
+  'comp21.ctt':  74,
 }
 
 RUNNING_INSTANCES:           List[str] = easyInstances

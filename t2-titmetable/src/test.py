@@ -1,10 +1,9 @@
-x = {
-  "a": 2,
-  "b": 3,
-}
+def f():
+  x = 2
 
-print(x)
+if f():
+  print('entoru')
+else:
+  print('aqui')
 
-x.clear()
-
-print(x)
+  print(bool(f()))

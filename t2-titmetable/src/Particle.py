@@ -22,7 +22,7 @@ class Particle(TimeTable):
   alpha: float = 0.1
 
   # Attempts to generate feasible solutions for each particle
-  attempts: int = 3
+  attempts: int = 10
 
   GBest: BestParticle = None
 
@@ -33,7 +33,6 @@ class Particle(TimeTable):
     # if it don't work, discard the particle.
     attempt = 0
     for _ in range(Particle.attempts):
-      # self.reset_slots()
       if self.graspInit():
         self.__value = self.fitness()
         print('particle:', self.__value)
@@ -107,6 +106,18 @@ class Particle(TimeTable):
     slotA.force_update_allocated_course(courseB)
     slotB.force_update_allocated_course(courseA)
 
+    # oldValue = self.__value
+
+    # allow only improvements
+    # newValue = self.fitness()
+
+    # if newValue >= self.__value:
+    #   slotA.force_update_allocated_course(courseA)
+    #   slotB.force_update_allocated_course(courseB)
+    #   return False
+
+    # self.__value = newValue
+
     courseSlots = self.get_course_slots()
 
     # if courseA is not None:
@@ -116,6 +127,8 @@ class Particle(TimeTable):
   # if courseB is not None:
     courseSlots[courseB].remove(slotB)
     courseSlots[courseB].append(slotA)
+
+    return True
 
   def rand_mutate(self) -> None:
     # execute [w] swaps, each of them try [attempts] times
@@ -159,14 +172,7 @@ class Particle(TimeTable):
 
         courseSlots = self.get_course_slots()
 
-        try:
-          slotSameCourseGBest = random.choice(courseSlots[courseGBest])
-        except Exception as e:
-          print(e)
-          print(courseGBest)
-          print(courseSlots)
-          print(Particle.GBest)
-          exit()
+        slotSameCourseGBest = random.choice(courseSlots[courseGBest])
         slotSameDayPeriodRoomGBest = self.get_slot_by_attributes(dayGBest, periodGBest, roomGBest)
 
         if self.swap_courses(slotSameCourseGBest, slotSameDayPeriodRoomGBest):
@@ -206,13 +212,6 @@ class Particle(TimeTable):
     classesToAlloc: List[Course] = self.get_classes_to_alloc()
     allocatedClasses: List[Course] = self.get_allocated_classes()
 
-    # print(classesToAlloc)
-    # print()
-    # print()
-    # print()
-    # print(classesToAlloc.copy())
-    # exit()
-
     while classesToAlloc: # while there are classes to alloc
       course = self.most_conflitant_class()
       greedyValues: Dict[Slot, float] = {}
@@ -249,13 +248,3 @@ class Particle(TimeTable):
 
     self.update_course_slots()
     return True
-
-# path = '../instances/toy.ctt'
-# instance = Instance(path)
-# tt = Particle(instance)
-
-# print(tt)
-
-# tt.rand_change_pbest()
-
-# print(tt)
