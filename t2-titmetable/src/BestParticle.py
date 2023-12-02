@@ -8,7 +8,8 @@ class BestParticle:
     self.__value = value
 
   def __str__(self) -> str:
-    return '\n'.join([slot.__str__() for slot in self.__slots]) + f'\nfitness: {self.__value}'
+    return '\n'.join([slot.__str__() for slot in self.__slots if slot.is_filled()])
+    # return '\n'.join([slot.__str__() for slot in self.__slots]) + f'\nfitness: {self.__value}'
 
   def get_value(self) -> float:
     return self.__value

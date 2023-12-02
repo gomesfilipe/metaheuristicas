@@ -1,9 +1,5 @@
-def f():
-  x = 2
+x = 'teste'
 
-if f():
-  print('entoru')
-else:
-  print('aqui')
+y = 'teste'
 
-  print(bool(f()))
+print(x == y)

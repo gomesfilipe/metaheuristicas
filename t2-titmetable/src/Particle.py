@@ -54,7 +54,8 @@ class Particle(TimeTable):
     return self.__isFeasible
 
   def __str__(self) -> str:
-    return super().__str__() + f'\nfitness: {self.fitness()}'
+    return super().__str__()
+    # return super().__str__() + f'\nfitness: {self.fitness()}'
     # return f'fitness: {self.fitness()}'
 
   def isFeasible(self) -> bool:
@@ -70,6 +71,8 @@ class Particle(TimeTable):
     x3 = Particle.a3 * self.compute_s3()
     x4 = Particle.a4 * self.compute_s4()
 
+    print(x1, x2, x3, x4)
+    
     value = x1 + x2 + x3 + x4
     self.__value = value
     return value
@@ -198,7 +201,7 @@ class Particle(TimeTable):
     if not self.can_alloc_course_in_slot(course, slot):
       return float('inf')
 
-    slot.update_allocated_course(course)
+    slot.force_update_allocated_course(course)
 
     x1 = Particle.a1 * self.compute_s1()
     x2 = Particle.a2 * self.compute_s2()
@@ -240,8 +243,19 @@ class Particle(TimeTable):
         if value <= minValue + Particle.alpha * (maxValue - minValue): # grasp condition
           lrc.append(slot)
 
-      slot: Slot = random.choice(lrc)
-      slot.update_allocated_course(course)
+      # try [attempts] times insert course in slot of lrc
+      for _ in range(Particle.attempts):
+        slot: Slot = random.choice(lrc)
+
+        if self.can_alloc_course_in_slot(course, slot):
+          slot.force_update_allocated_course(course)
+          break
+        elif _ == Particle.attempts - 1:
+          self.reset_slots()
+          self.reset_classes_to_alloc()
+          return False
+
+        # slot.update_allocated_course(course)
 
       classesToAlloc.remove(course)
       allocatedClasses.append(course)

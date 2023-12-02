@@ -11,7 +11,8 @@ class Slot:
 
   def __str__(self) -> str:
     allocatedCourseName = None if self.__allocatedCourse is None else self.__allocatedCourse.get_name()
-    return f'({self.__day}, {self.__period}, {self.__room.get_id()}) [{allocatedCourseName}]'
+    return f'{allocatedCourseName} {self.__room.get_name()} {self.__day} {self.__period}'
+    # return f'({self.__day}, {self.__period}, {self.__room.get_id()}) [{allocatedCourseName}]'
 
   def get_day(self) -> int:
     return self.__day

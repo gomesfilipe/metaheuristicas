@@ -41,7 +41,7 @@ class TimeTable:
     self.__courseSlots: Dict[Course, List[Slot]] = {}
 
   def __str__(self) -> str:
-    return '\n'.join([slot.__str__() for slot in self.__slots])
+    return '\n'.join([slot.__str__() for slot in self.__slots if slot.is_filled()])
 
   def get_instance(self) -> Instance:
     return self.__instance

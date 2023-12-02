@@ -94,7 +94,7 @@ class Instance:
     for course in self.__courses:
       course.update_constraints(self.__constraints)
       course.update_curricula(self.__curricula)
-      course.update_conflicts()
+      course.update_conflicts(self.__courses)
 
   def __str__(self) -> str:
     instance = 'INSTANCE'

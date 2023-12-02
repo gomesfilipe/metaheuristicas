@@ -5,7 +5,7 @@ from typing import Dict, List
 from Instance import Instance
 
 TIME_EXECUTION: int = 10 # Defined by benchmark
-EXECS_PER_INSTANCES: int = 2 # Defined in project statement
+EXECS_PER_INSTANCES: int = 1 # Defined in project statement
 POPULATION_SIZE: int = 2 # Defined by author
 
 C1 = 1
@@ -87,6 +87,15 @@ for index, instancePath in enumerate(RUNNING_INSTANCES_FULL_PATH):
 
     print(f'\n[Best PSO] {bestParticle.get_value()}\n')
     data[instanceName].append(bestParticle.get_value())
+
+    logFileName2 = logFileName + '_test' if _ == 0 else None
+
+    file = open(logFileName2 + '.txt', 'w')
+    file.write(bestParticle.__str__())
+
+    file.close()
+
+
 
   print('----------')
 

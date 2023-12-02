@@ -62,11 +62,15 @@ class Course:
     tmpCurricula = [c for c in curricula if self in c.get_courses()]
     self.__curricula = set(tmpCurricula)
 
-  def update_conflicts(self):
-    for curricula in self.__curricula:
-      for course in curricula.get_courses():
-        if self.__there_is_conflict_aux(course):
-          self.__conflicts.add(course)
+  def update_conflicts(self, allCourses: List[Course]):
+    for course in allCourses:
+      if self.__there_is_conflict_aux(course):
+        self.__conflicts.add(course)
+
+    # for curricula in self.__curricula:
+    #   for course in curricula.get_courses():
+    #     if self.__there_is_conflict_aux(course):
+    #       self.__conflicts.add(course)
 
     for conflict in self.__conflicts:
       self.__checkConflicts[conflict] = True
