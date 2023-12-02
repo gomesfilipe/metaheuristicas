@@ -67,11 +67,6 @@ class Course:
       if self.__there_is_conflict_aux(course):
         self.__conflicts.add(course)
 
-    # for curricula in self.__curricula:
-    #   for course in curricula.get_courses():
-    #     if self.__there_is_conflict_aux(course):
-    #       self.__conflicts.add(course)
-
     for conflict in self.__conflicts:
       self.__checkConflicts[conflict] = True
 

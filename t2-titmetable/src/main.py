@@ -4,9 +4,9 @@ from Report import Report
 from typing import Dict, List
 from Instance import Instance
 
-TIME_EXECUTION: int = 10 # Defined by benchmark
-EXECS_PER_INSTANCES: int = 1 # Defined in project statement
-POPULATION_SIZE: int = 2 # Defined by author
+TIME_EXECUTION: int = 204 # Defined by benchmark
+EXECS_PER_INSTANCES: int = 5 # Defined in project statement
+POPULATION_SIZE: int = 5 # Defined by author
 
 C1 = 1
 C2 = 1
@@ -23,10 +23,20 @@ easyInstances: List[str] = ['comp01.ctt', 'comp11.ctt']
 hardInstances: List[str] = ['comp05.ctt', 'comp12.ctt']
 allInstances:  List[str] = list(filter(lambda filename: filename not in toyInstances, os.listdir(f'{CURRENT_DIR}/{INSTANCES_DIR}')))
 
+group1: List[str] = ['comp01.ctt', 'comp02.ctt', 'comp03.ctt', 'comp04.ctt', 'comp05.ctt']
+group2: List[str] = ['comp06.ctt', 'comp07.ctt', 'comp08.ctt', 'comp09.ctt', 'comp10.ctt']
+group3: List[str] = ['comp11.ctt', 'comp12.ctt', 'comp13.ctt', 'comp14.ctt', 'comp15.ctt']
+group4: List[str] = ['comp16.ctt', 'comp17.ctt', 'comp18.ctt', 'comp19.ctt', 'comp20.ctt', 'comp21.ctt']
+
 allInstancesFullPath:  List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in allInstances]
 toyInstancesFullPath:  List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in toyInstances]
 easyInstancesFullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in easyInstances]
 hardInstancesFullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in hardInstances]
+
+group1FullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in group1]
+group2FullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in group2]
+group3FullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in group3]
+group4FullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in group4]
 
 # Generate reports
 data: Dict[str, List[float]] = {} # Values are lists that contain best PSO values
@@ -57,8 +67,8 @@ optimalValuesAllInstances: Dict[str, float] = {
   'comp21.ctt':  74,
 }
 
-RUNNING_INSTANCES:           List[str] = easyInstances
-RUNNING_INSTANCES_FULL_PATH: List[str] = easyInstancesFullPath
+RUNNING_INSTANCES:           List[str] = group1
+RUNNING_INSTANCES_FULL_PATH: List[str] = group1FullPath
 
 # Init dictionaries to generate reports
 for index, instancePath in enumerate(RUNNING_INSTANCES):
@@ -87,15 +97,6 @@ for index, instancePath in enumerate(RUNNING_INSTANCES_FULL_PATH):
 
     print(f'\n[Best PSO] {bestParticle.get_value()}\n')
     data[instanceName].append(bestParticle.get_value())
-
-    logFileName2 = logFileName + '_test' if _ == 0 else None
-
-    file = open(logFileName2 + '.txt', 'w')
-    file.write(bestParticle.__str__())
-
-    file.close()
-
-
 
   print('----------')
 

@@ -24,9 +24,9 @@ class Test:
     print(particle.get_value())
     # print(len(particle.get_slots()))
 
-instanceFileName = '../validator/comp01.ctt'
-# instanceFileName = '../validator/toy.ctt'
+# instanceFileName = '../validator/comp11.ctt'
+instanceFileName = '../validator/toy.ctt'
 
 tester = Test(instanceFileName)
-# Test.generateGraspSolution(instanceFileName)
-tester.generateFillSolution()
+tester.generateGraspSolution()
+# tester.generateFillSolution()

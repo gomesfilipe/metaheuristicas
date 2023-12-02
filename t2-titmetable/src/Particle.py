@@ -58,11 +58,11 @@ class Particle(TimeTable):
     # return super().__str__() + f'\nfitness: {self.fitness()}'
     # return f'fitness: {self.fitness()}'
 
-  def isFeasible(self) -> bool:
+  def is_feasible(self) -> bool:
     return self.satisfies_h1() and self.satisfies_h2() and self.satisfies_h3() and self.satisfies_h4()
 
   def fitness(self) -> int:
-    if not self.isFeasible():
+    if not self.is_feasible():
       self.__value = float('inf')
       return float('inf')
 
@@ -71,10 +71,11 @@ class Particle(TimeTable):
     x3 = Particle.a3 * self.compute_s3()
     x4 = Particle.a4 * self.compute_s4()
 
-    print(x1, x2, x3, x4)
-    
+    # print(x1, x2, x3, x4)
+
     value = x1 + x2 + x3 + x4
-    self.__value = value
+    # print(value)
+    # self.__value = value
     return value
 
   def get_random_slot_from_pbest(self) -> Slot:
@@ -109,25 +110,11 @@ class Particle(TimeTable):
     slotA.force_update_allocated_course(courseB)
     slotB.force_update_allocated_course(courseA)
 
-    # oldValue = self.__value
-
-    # allow only improvements
-    # newValue = self.fitness()
-
-    # if newValue >= self.__value:
-    #   slotA.force_update_allocated_course(courseA)
-    #   slotB.force_update_allocated_course(courseB)
-    #   return False
-
-    # self.__value = newValue
-
     courseSlots = self.get_course_slots()
 
-    # if courseA is not None:
     courseSlots[courseA].remove(slotA)
     courseSlots[courseA].append(slotB)
 
-  # if courseB is not None:
     courseSlots[courseB].remove(slotB)
     courseSlots[courseB].append(slotA)
 

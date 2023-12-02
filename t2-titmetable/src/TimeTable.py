@@ -288,17 +288,19 @@ class TimeTable:
       return False
 
     if self.__instance.get_periods_per_day() == 1:
-      return True
+      return False
 
     day = slot.get_day()
     period = slot.get_period()
     room = slot.get_room().get_id()
 
+    course = slot.get_allocated_course()
+
     if period == 0: # First class
       for r in range(self.__instance.get_num_rooms()):
         nextClassCourse = self.get_slot_by_attributes(day, period + 1, r).get_allocated_course()
 
-        if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse):
+        if course != nextClassCourse and course.belongs_to_same_curricula(nextClassCourse):
           return False
       return True
 
@@ -306,7 +308,7 @@ class TimeTable:
       for r in range(self.__instance.get_num_rooms()):
         previousClassCourse = self.get_slot_by_attributes(day, period - 1, r).get_allocated_course()
 
-        if slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
+        if course != previousClassCourse and course.belongs_to_same_curricula(previousClassCourse):
           return False
       return True
 
@@ -315,7 +317,10 @@ class TimeTable:
         nextClassCourse = self.get_slot_by_attributes(day, period + 1, r).get_allocated_course()
         previousClassCourse = self.get_slot_by_attributes(day, period - 1, r).get_allocated_course()
 
-        if slot.get_allocated_course().belongs_to_same_curricula(nextClassCourse) or slot.get_allocated_course().belongs_to_same_curricula(previousClassCourse):
+        if course != nextClassCourse and course.belongs_to_same_curricula(nextClassCourse):
+          return False
+
+        if course != previousClassCourse and course.belongs_to_same_curricula(previousClassCourse):
           return False
       return True
 
