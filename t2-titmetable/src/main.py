@@ -4,28 +4,29 @@ from Report import Report
 from typing import Dict, List
 from Instance import Instance
 
-TIME_EXECUTION: int = 216 # Defined by benchmark
-EXECS_PER_INSTANCES: int = 3 # Defined in project statement
-POPULATION_SIZE: int = 5 # Defined by author
+TIME_EXECUTION: int = 10 # Defined by benchmark
+EXECS_PER_INSTANCES: int = 2 # Defined in project statement
+POPULATION_SIZE: int = 2 # Defined by author
 
 C1 = 1
 C2 = 1
 W = 1
 
 CURRENT_DIR: str = os.getcwd()
-INSTANCES_DIR: str = 'instances'
-REPORT_FILENAME = '../reports/report'
+INSTANCES_DIR: str = '../instances'
+REPORT_DIR: str = '../reports'
+REPORT_FILENAME = f'{REPORT_DIR}/report'
 
 # Instances filenames
 toyInstances:  List[str] = ['toy.ctt']
 easyInstances: List[str] = ['comp01.ctt', 'comp11.ctt']
 hardInstances: List[str] = ['comp05.ctt', 'comp12.ctt']
-allInstances:  List[str] = list(filter(lambda filename: filename not in toyInstances, os.listdir(f'{CURRENT_DIR}/../{INSTANCES_DIR}')))
+allInstances:  List[str] = list(filter(lambda filename: filename not in toyInstances, os.listdir(f'{CURRENT_DIR}/{INSTANCES_DIR}')))
 
-allInstancesFullPath:  List[str] = [f'../{INSTANCES_DIR}/{filename}' for filename in allInstances]
-toyInstancesFullPath:  List[str] = [f'../{INSTANCES_DIR}/{filename}' for filename in toyInstances]
-easyInstancesFullPath: List[str] = [f'../{INSTANCES_DIR}/{filename}' for filename in easyInstances]
-hardInstancesFullPath: List[str] = [f'../{INSTANCES_DIR}/{filename}' for filename in hardInstances]
+allInstancesFullPath:  List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in allInstances]
+toyInstancesFullPath:  List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in toyInstances]
+easyInstancesFullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in easyInstances]
+hardInstancesFullPath: List[str] = [f'{INSTANCES_DIR}/{filename}' for filename in hardInstances]
 
 # Generate reports
 data: Dict[str, List[float]] = {} # Values are lists that contain best PSO values
@@ -68,15 +69,20 @@ for index, instancePath in enumerate(RUNNING_INSTANCES):
 for index, instancePath in enumerate(RUNNING_INSTANCES_FULL_PATH):
   instanceName = RUNNING_INSTANCES[index]
 
+  reportPath = REPORT_FILENAME
   print('----------')
   print(f'[Instance] {instanceName}')
+
+  reportPath = f'{REPORT_DIR}/{instanceName}'
 
   instance = Instance(instancePath)
 
   for _ in range(EXECS_PER_INSTANCES):
     print(f'\n[Execution {_}]\n')
 
-    pso = PSO(TIME_EXECUTION, POPULATION_SIZE, instance, w = W, c1 =  C1, c2 = C2)
+    logFileName = reportPath if _ == 0 else None
+
+    pso = PSO(TIME_EXECUTION, POPULATION_SIZE, instance, w = W, c1 =  C1, c2 = C2, logFileName = logFileName)
     bestParticle =  pso.execute()
 
     print(f'\n[Best PSO] {bestParticle.get_value()}\n')

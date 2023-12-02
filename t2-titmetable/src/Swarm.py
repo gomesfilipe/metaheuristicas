@@ -3,6 +3,7 @@ from Instance import Instance
 from Slot import Slot
 from BestParticle import BestParticle
 from typing import Union, List
+import numpy as np
 
 class Swarm:
   def __init__(self, population: int, instance: Instance,
@@ -38,3 +39,6 @@ class Swarm:
       Particle.update_gbest(particle)
       particle.update_pbest()
       particle.update_position()
+
+  def best_value_current_swarm(self) -> float:
+    return np.min([particle.get_value() for particle in self.__particles])
