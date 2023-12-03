@@ -24,15 +24,20 @@ class Swarm:
     self.__particles = [particle for particle in self.__particles if particle.get_is_feasible()]
 
     # if population is empty
-    if not self.__particles:
-      print("No feasible solutions found.")
-      exit()
+    self.__isEmpty: bool = False if self.__particles else True
 
-    Particle.GBest: BestParticle = BestParticle(self.__particles[0].get_copy_slots(), self.__particles[0].get_value())
+    if self.__isEmpty:
+      Particle.GBest: BestParticle = BestParticle([], float('inf'))
+    else:
+      Particle.GBest: BestParticle = BestParticle(self.__particles[0].get_copy_slots(), self.__particles[0].get_value())
+
 
   def __str__(self) -> str:
     # return '\n'.join([p.__str__() + '\n' for p in self.__particles])
     return '\n'.join([p.__str__() for p in self.__particles])
+
+  def is_empty(self) -> bool:
+    return self.__isEmpty
 
   def update_swarm(self):
     for particle in self.__particles:

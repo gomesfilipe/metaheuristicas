@@ -42,6 +42,9 @@ class Particle(TimeTable):
 
     self.__isFeasible: bool = not (attempt == Particle.attempts)
 
+    if not self.__isFeasible:
+      self.__value = float('inf')
+
     self.__PBest: BestParticle = BestParticle(self.get_copy_slots(), self.__value)
 
   def get_value(self) -> float:

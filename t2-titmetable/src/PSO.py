@@ -33,6 +33,9 @@ class PSO:
     return self.__swarm
 
   def execute(self) -> BestParticle:
+    if self.__swarm.is_empty():
+      return Particle.GBest
+
     if self.__logFileName is not None:
       file = open(f'{self.__logFileName}.csv', 'w')
       file.write('iteration,bestSwarmValue\n')
