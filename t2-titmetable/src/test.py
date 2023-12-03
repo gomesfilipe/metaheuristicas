@@ -1,5 +1,5 @@
-x = 'teste'
+import pandas as pd
 
-y = 'teste'
+df = pd.read_csv('../reports/report.txt')
 
-print(x == y)
+print(df)
