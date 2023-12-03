@@ -1,0 +1,587 @@
+python3 main.py
+----------
+[Instance] comp16.ctt
+
+[Execution 0]
+
+particle: 386
+particle: 725
+particle: 763
+particle: 373
+particle: 703
+BestGlobal! 373
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3701
+
+[Best PSO] 373
+
+
+[Execution 1]
+
+particle: 736
+particle: 827
+particle: 908
+particle: 380
+particle: 721
+BestGlobal! 380
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3688
+
+[Best PSO] 380
+
+
+[Execution 2]
+
+particle: 494
+particle: 544
+particle: 740
+particle: 778
+particle: 581
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3704
+
+[Best PSO] 494
+
+
+[Execution 3]
+
+particle: 608
+particle: 890
+particle: 827
+particle: 446
+particle: 701
+BestGlobal! 446
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3706
+
+[Best PSO] 446
+
+
+[Execution 4]
+
+particle: 920
+particle: 886
+particle: 564
+particle: 486
+particle: 659
+BestGlobal! 886
+BestGlobal! 564
+BestGlobal! 486
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3712
+
+[Best PSO] 486
+
+----------
+----------
+[Instance] comp17.ctt
+
+[Execution 0]
+
+particle: 593
+particle: 457
+particle: 478
+particle: 427
+particle: 531
+BestGlobal! 457
+BestGlobal! 427
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4758
+
+[Best PSO] 427
+
+
+[Execution 1]
+
+particle: 657
+particle: 464
+particle: 581
+particle: 734
+particle: 688
+BestGlobal! 464
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4714
+
+[Best PSO] 464
+
+
+[Execution 2]
+
+particle: 612
+particle: 718
+particle: 813
+particle: 877
+particle: 607
+BestGlobal! 607
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4723
+
+[Best PSO] 607
+
+
+[Execution 3]
+
+particle: 682
+particle: 630
+particle: 618
+particle: 615
+particle: 379
+BestGlobal! 630
+BestGlobal! 618
+BestGlobal! 615
+BestGlobal! 379
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4701
+
+[Best PSO] 379
+
+
+[Execution 4]
+
+particle: 605
+particle: 703
+particle: 684
+particle: 706
+particle: 494
+BestGlobal! 494
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4738
+
+[Best PSO] 494
+
+----------
+----------
+[Instance] comp18.ctt
+
+[Execution 0]
+
+particle: 74
+particle: 56
+particle: 73
+particle: 79
+particle: 67
+BestGlobal! 56
+BestGlobal! 55
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 12285
+
+[Best PSO] 55
+
+
+[Execution 1]
+
+particle: 59
+particle: 59
+particle: 54
+particle: 82
+particle: 60
+BestGlobal! 54
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 12291
+
+[Best PSO] 54
+
+
+[Execution 2]
+
+particle: 54
+particle: 87
+particle: 63
+particle: 85
+particle: 78
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 12302
+
+[Best PSO] 54
+
+
+[Execution 3]
+
+particle: 56
+particle: 57
+particle: 57
+particle: 76
+particle: 67
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 12207
+
+[Best PSO] 56
+
+
+[Execution 4]
+
+particle: 76
+particle: 42
+particle: 69
+particle: 56
+particle: 58
+BestGlobal! 42
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 12246
+
+[Best PSO] 42
+
+----------
+----------
+[Instance] comp19.ctt
+
+[Execution 0]
+
+infinity
+particle: 276
+particle: 356
+particle: 339
+particle: 391
+infinity
+particle: 344
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 5516
+
+[Best PSO] 276
+
+
+[Execution 1]
+
+particle: 305
+infinity
+infinity
+infinity
+particle: 289
+infinity
+infinity
+particle: 334
+infinity
+particle: 313
+infinity
+particle: 324
+BestGlobal! 289
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 5464
+
+[Best PSO] 289
+
+
+[Execution 2]
+
+particle: 273
+infinity
+infinity
+particle: 343
+infinity
+particle: 317
+infinity
+infinity
+particle: 307
+particle: 333
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 5494
+
+[Best PSO] 273
+
+
+[Execution 3]
+
+particle: 373
+particle: 280
+infinity
+particle: 308
+particle: 322
+particle: 328
+BestGlobal! 280
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 5485
+
+[Best PSO] 280
+
+
+[Execution 4]
+
+particle: 301
+particle: 337
+particle: 329
+particle: 326
+infinity
+particle: 337
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 5478
+
+[Best PSO] 301
+
+----------
+----------
+[Instance] comp20.ctt
+
+[Execution 0]
+
+particle: 1384
+particle: 868
+particle: 1102
+particle: 1207
+particle: 1035
+BestGlobal! 868
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3632
+
+[Best PSO] 868
+
+
+[Execution 1]
+
+particle: 975
+particle: 1145
+particle: 1532
+particle: 1195
+particle: 1173
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3606
+
+[Best PSO] 975
+
+
+[Execution 2]
+
+particle: 1224
+particle: 1037
+particle: 1162
+particle: 1085
+particle: 792
+BestGlobal! 1037
+BestGlobal! 792
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3614
+
+[Best PSO] 792
+
+
+[Execution 3]
+
+particle: 1136
+particle: 977
+particle: 1074
+particle: 758
+particle: 1124
+BestGlobal! 977
+BestGlobal! 758
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3627
+
+[Best PSO] 758
+
+
+[Execution 4]
+
+particle: 839
+particle: 1260
+particle: 979
+particle: 1032
+particle: 1626
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 3623
+
+[Best PSO] 839
+
+----------
+----------
+[Instance] comp21.ctt
+
+[Execution 0]
+
+particle: 297
+particle: 322
+particle: 336
+particle: 464
+particle: 350
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4285
+
+[Best PSO] 297
+
+
+[Execution 1]
+
+particle: 324
+particle: 311
+particle: 290
+particle: 412
+particle: 307
+BestGlobal! 311
+BestGlobal! 290
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4300
+
+[Best PSO] 290
+
+
+[Execution 2]
+
+particle: 352
+particle: 349
+particle: 389
+particle: 308
+particle: 323
+BestGlobal! 349
+BestGlobal! 308
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4303
+
+[Best PSO] 308
+
+
+[Execution 3]
+
+particle: 277
+particle: 303
+particle: 353
+particle: 463
+particle: 311
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4295
+
+[Best PSO] 277
+
+
+[Execution 4]
+
+particle: 313
+particle: 279
+particle: 278
+particle: 291
+particle: 300
+BestGlobal! 279
+BestGlobal! 278
+BestGlobal! 277
+200 secs to end execution
+150 secs to end execution
+100 secs to end execution
+50 secs to end execution
+0 secs to end execution
+total iterations: 4286
+
+[Best PSO] 277
+
+----------
+     instance  optimal  ...     gap_min    gap_mean
+0  comp16.ctt       18  ...   19.722222   23.211111
+1  comp17.ctt       56  ...    5.767857    7.467857
+2  comp18.ctt       61  ...   -0.311475   -0.144262
+3  comp19.ctt       57  ...    3.789474    3.978947
+4  comp20.ctt        4  ...  188.500000  210.600000
+5  comp21.ctt       74  ...    2.743243    2.916216
+
+[6 rows x 6 columns]
