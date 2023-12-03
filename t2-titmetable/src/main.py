@@ -67,8 +67,8 @@ optimalValuesAllInstances: Dict[str, float] = {
   'comp21.ctt':  74,
 }
 
-RUNNING_INSTANCES:           List[str] = group1
-RUNNING_INSTANCES_FULL_PATH: List[str] = group1FullPath
+RUNNING_INSTANCES:           List[str] = allInstances
+RUNNING_INSTANCES_FULL_PATH: List[str] = allInstancesFullPath
 
 # Init dictionaries to generate reports
 for index, instancePath in enumerate(RUNNING_INSTANCES):
