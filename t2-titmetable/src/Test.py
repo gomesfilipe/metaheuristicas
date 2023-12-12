@@ -9,11 +9,10 @@ class Test:
 
   def generateGraspSolution(self):
     particle = Particle(self.__instance)
-    particle.graspInit()
 
     file = open(f'{self.__filename}.txt', 'w')
     file.write(particle.__str__())
-    print(particle.get_value())
+    # print(particle.get_value())
 
   def generateFillSolution(self):
     particle = Particle(self.__instance)
@@ -21,12 +20,4 @@ class Test:
 
     file = open(f'{self.__filename}.txt', 'w')
     file.write(particle.__str__())
-    print(particle.get_value())
-    # print(len(particle.get_slots()))
-
-# instanceFileName = '../validator/comp11.ctt'
-instanceFileName = '../validator/toy.ctt'
-
-tester = Test(instanceFileName)
-tester.generateGraspSolution()
-# tester.generateFillSolution()
+    # print(particle.get_value())
