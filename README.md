@@ -11,7 +11,6 @@ Desenvolvimento de artigo e apresentação sobre a versão clássica do PSO.
 <i>Diretório:</i> ```t1-artigo``` 
 
 ## Trabalho 2 - Aplicação do PSO ao PHTU do ITC 2007
-Implementar uma versão discreta do PSO para o problema de Tabela-Horário e fazer um artigo mostrando os resultados.\
-Foi utilizada a linguagem de programação Python.
+Implementação de uma versão discreta do PSO para o problema de Tabela-Horário e fazer um artigo mostrando os resultados. Foi utilizada a linguagem de programação Python.
 
 <i>Diretório:</i> ```t1-artigo``` 
